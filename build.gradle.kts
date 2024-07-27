@@ -1,34 +1,30 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
+    val kotlinVersion = PluginsVersion.kotlin
+    kotlin("jvm") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
     `kotlin-dsl`
 }
 
-group = "com.github.xeounxzxu"
-version = "0.0.1-SNAPSHOT"
+allprojects {
 
-repositories {
-    mavenCentral()
+    group = "com.github.xeounxzxu"
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
+subprojects {
 
-    val version = PluginsVersion
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.kapt")
 
-    implementation("org.springframework.restdocs:spring-restdocs-mockmvc:${version.restdocs}")
-    implementation("org.springframework.restdocs:spring-restdocs-restassured:3.0.1")
+    dependencies {
+        testImplementation(kotlin("test"))
+    }
 
-    implementation("io.kotest:kotest-runner-junit5-jvm:${version.kotest}")
-    implementation("io.kotest:kotest-assertions-core-jvm:${version.kotest}")
-    implementation("io.kotest:kotest-property:${version.kotest}")
-    implementation("io.kotest.extensions:kotest-extensions-spring:${version.extensionsSpring}")
-
-    testImplementation(kotlin("test"))
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-kotlin {
-    jvmToolchain(17)
-}
