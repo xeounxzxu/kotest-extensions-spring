@@ -1,4 +1,10 @@
-version = "0.0.1-SNAPSHOT"
+val kotestExtensionsSpringRestdocs = PluginsVersion.kotestExtensionsSpringRestdocs
+
+plugins {
+    `maven-publish`
+}
+
+version = kotestExtensionsSpringRestdocs
 
 dependencies {
 
@@ -16,3 +22,25 @@ tasks.getByName("jar") {
     enabled = true
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = "com.github.xeounxzxu"
+            artifactId = "kotest-extensions-spring-restdocs"
+            version = kotestExtensionsSpringRestdocs
+            from(components["java"])
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "kotest spring restdocs extensions"
+                description = "kotest spring restdocs extensions library"
+            }
+        }
+    }
+}
