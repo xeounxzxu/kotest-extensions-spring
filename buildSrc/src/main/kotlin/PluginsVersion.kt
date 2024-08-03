@@ -3,6 +3,7 @@ object PluginsVersion {
     // project version
     const val jvm = "17"
     const val kotlin = "1.9.23"
+    const val ktlint = "12.1.1"
 
 
     //  kotest-extensions-spring-restdocs version

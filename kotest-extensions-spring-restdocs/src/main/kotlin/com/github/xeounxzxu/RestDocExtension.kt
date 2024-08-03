@@ -4,11 +4,11 @@ import io.kotest.core.extensions.TestCaseExtension
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.extensions.spring.testContextManager
+import kotlinx.coroutines.withContext
+import org.springframework.restdocs.ManualRestDocumentation
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
-import kotlinx.coroutines.withContext
-import org.springframework.restdocs.ManualRestDocumentation
 
 val RestDocExtension = RestDocTestExtension()
 
@@ -41,4 +41,3 @@ class RestDocTestExtension : TestCaseExtension {
         }
     }
 }
-
