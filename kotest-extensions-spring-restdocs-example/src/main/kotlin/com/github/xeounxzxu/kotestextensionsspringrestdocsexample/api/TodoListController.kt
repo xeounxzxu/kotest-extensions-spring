@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -19,12 +18,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/v1/todo-list")
 class TodoListController(
-    private val todoService: TodoService
+    private val todoService: TodoService,
 ) {
-
     @GetMapping("/{todoId}")
     fun get(
-        @PathVariable todoId: Long
+        @PathVariable todoId: Long,
     ): TodoListOneResponse {
         return todoService.getOne(todoId).run {
             TodoListOneResponse.from(this)
@@ -36,7 +34,7 @@ class TodoListController(
         return todoService.getAll()
             .run {
                 TodoListResponse.from(
-                    todoList = this
+                    todoList = this,
                 )
             }
     }
@@ -44,7 +42,7 @@ class TodoListController(
     @DeleteMapping("/{todoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun remove(
-        @PathVariable todoId: Long
+        @PathVariable todoId: Long,
     ) {
         todoService.remove(todoId)
     }
@@ -52,11 +50,11 @@ class TodoListController(
     @PatchMapping("/{todoId}")
     fun updateTitle(
         @PathVariable todoId: Long,
-        @RequestBody request: TodoListUpdateTitleRequest
+        @RequestBody request: TodoListUpdateTitleRequest,
     ): TodoListOneResponse {
         return todoService.updateTitle(
             id = todoId,
-            title = request.title
+            title = request.title,
         )
             .run {
                 TodoListOneResponse.from(this)

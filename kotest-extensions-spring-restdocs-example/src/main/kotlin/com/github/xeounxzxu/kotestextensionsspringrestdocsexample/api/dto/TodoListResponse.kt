@@ -1,28 +1,24 @@
 package com.github.xeounxzxu.kotestextensionsspringrestdocsexample.api.dto
 
 data class TodoListOneResponse(
-    val todoItem: TodoItem
+    val todoItem: TodoItem,
 ) {
     companion object {
-        fun from(
-            todoItem: TodoItem
-        ): TodoListOneResponse {
+        fun from(todoItem: TodoItem): TodoListOneResponse {
             return TodoListOneResponse(
-                todoItem = todoItem
+                todoItem = todoItem,
             )
         }
     }
 }
 
 data class TodoListResponse(
-    val todoList: List<TodoItem>
+    val todoList: List<TodoItem>,
 ) {
     companion object {
-        fun from(
-            todoList: List<TodoItem>
-        ): TodoListResponse {
+        fun from(todoList: List<TodoItem>): TodoListResponse {
             return TodoListResponse(
-                todoList = todoList
+                todoList = todoList,
             )
         }
     }

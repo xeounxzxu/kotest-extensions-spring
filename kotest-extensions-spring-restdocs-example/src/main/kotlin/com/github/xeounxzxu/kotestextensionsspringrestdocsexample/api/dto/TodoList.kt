@@ -5,5 +5,4 @@ data class TodoItem(
     val title: String,
 )
 
-
 typealias TodoItemWithIndex = Pair<Int, TodoItem>
