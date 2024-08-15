@@ -1,8 +1,4 @@
-# Kotest Extensions Spring (unofficial)
-
-1. kotest's Unofficial expansion module
-
-## Module
+# Kotest Extensions Spring Restdocs
 
 ## Formatting 
 
