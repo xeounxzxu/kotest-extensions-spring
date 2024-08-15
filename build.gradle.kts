@@ -20,6 +20,7 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
+        implementation("io.github.oshai:kotlin-logging-jvm:5.1.1")
         testImplementation(kotlin("test"))
     }
 
