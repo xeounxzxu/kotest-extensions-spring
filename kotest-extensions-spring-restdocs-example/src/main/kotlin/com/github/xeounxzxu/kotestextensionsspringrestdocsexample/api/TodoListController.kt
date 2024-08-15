@@ -23,21 +23,20 @@ class TodoListController(
     @GetMapping("/{todoId}")
     fun get(
         @PathVariable todoId: Long,
-    ): TodoListOneResponse {
-        return todoService.getOne(todoId).run {
+    ): TodoListOneResponse =
+        todoService.getOne(todoId).run {
             TodoListOneResponse.from(this)
         }
-    }
 
     @GetMapping
-    fun getList(): TodoListResponse {
-        return todoService.getAll()
+    fun getList(): TodoListResponse =
+        todoService
+            .getAll()
             .run {
                 TodoListResponse.from(
                     todoList = this,
                 )
             }
-    }
 
     @DeleteMapping("/{todoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -51,15 +50,14 @@ class TodoListController(
     fun updateTitle(
         @PathVariable todoId: Long,
         @RequestBody request: TodoListUpdateTitleRequest,
-    ): TodoListOneResponse {
-        return todoService.updateTitle(
-            id = todoId,
-            title = request.title,
-        )
-            .run {
+    ): TodoListOneResponse =
+        todoService
+            .updateTitle(
+                id = todoId,
+                title = request.title,
+            ).run {
                 TodoListOneResponse.from(this)
             }
-    }
 
     @PostMapping("/bulk-upload")
     @ResponseStatus(HttpStatus.NO_CONTENT)

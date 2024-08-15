@@ -36,4 +36,7 @@ class ExceptionControllerAdvice {
     }
 }
 
-data class ErrorResponse(val code: String, val message: String)
+data class ErrorResponse(
+    val code: String,
+    val message: String,
+)
