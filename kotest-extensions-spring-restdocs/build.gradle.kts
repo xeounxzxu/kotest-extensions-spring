@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.apache.ivy.plugins.parser.m2.PomModuleDescriptorBuilder
+
 val kotestExtensionsSpringRestdocs = PluginsVersion.kotestExtensionsSpringRestdocs
 
 plugins {
@@ -5,6 +7,14 @@ plugins {
 }
 
 version = kotestExtensionsSpringRestdocs
+
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//    }
+//}
 
 dependencies {
 
@@ -45,6 +55,14 @@ tasks.getByName("jar") {
 //    }
 //}
 
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        mavenCentral()
+//        maven { url 'https://jitpack.io' }
+//    }
+//}
+
 publishing {
     publications {
         create("maven-public", MavenPublication::class) {
@@ -55,3 +73,4 @@ publishing {
         }
     }
 }
+
