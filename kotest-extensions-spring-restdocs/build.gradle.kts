@@ -22,25 +22,36 @@ tasks.getByName("jar") {
     enabled = true
 }
 
+//publishing {
+//    publications {
+//        create<MavenPublication>("mavenJava") {
+//            groupId = "com.github.xeounxzxu"
+//            artifactId = "kotest-extensions-spring-restdocs"
+//            version = kotestExtensionsSpringRestdocs
+//            from(components["java"])
+//            versionMapping {
+//                usage("java-api") {
+//                    fromResolutionOf("runtimeClasspath")
+//                }
+//                usage("java-runtime") {
+//                    fromResolutionResult()
+//                }
+//            }
+//            pom {
+//                name = "kotest spring restdocs extensions"
+//                description = "kotest spring restdocs extensions library"
+//            }
+//        }
+//    }
+//}
+
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create("maven-public", MavenPublication::class) {
             groupId = "com.github.xeounxzxu"
             artifactId = "kotest-extensions-spring-restdocs"
-            version = kotestExtensionsSpringRestdocs
-            from(components["java"])
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
-                }
-            }
-            pom {
-                name = "kotest spring restdocs extensions"
-                description = "kotest spring restdocs extensions library"
-            }
+            version = "1.0.0"
+            from(components.getByName("java"))
         }
     }
 }
