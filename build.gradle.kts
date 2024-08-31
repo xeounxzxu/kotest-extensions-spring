@@ -10,6 +10,7 @@ allprojects {
     group = "com.github.xeounxzxu"
     repositories {
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 
