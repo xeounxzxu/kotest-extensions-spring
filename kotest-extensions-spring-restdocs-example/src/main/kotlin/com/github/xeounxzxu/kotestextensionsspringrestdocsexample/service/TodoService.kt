@@ -1,7 +1,6 @@
 package com.github.xeounxzxu.kotestextensionsspringrestdocsexample.service
 
 import com.github.xeounxzxu.kotestextensionsspringrestdocsexample.api.dto.TodoItem
-import com.github.xeounxzxu.kotestextensionsspringrestdocsexample.api.dto.TodoItemWithIndex
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,9 +29,10 @@ class TodoService(
         id: Long,
         title: String,
     ): TodoItem {
+
         val (index, findData) =
             checkNotNull(mockData.withIndex().find { it.value.id == id }).let {
-                (it.index to it.value) as TodoItemWithIndex
+                it.index to it.value
             }
 
         val update = findData.copy(title = title)
