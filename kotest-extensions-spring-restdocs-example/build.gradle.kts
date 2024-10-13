@@ -27,6 +27,8 @@ dependencies {
 
 //    testImplementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:0253fa8280")
 
+    implementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:main-SNAPSHOT")
+
     // kotest setting
     testImplementation("io.kotest:kotest-runner-junit5-jvm:${version.kotest}")
     testImplementation("io.kotest:kotest-assertions-core-jvm:${version.kotest}")
