@@ -1,1 +1,3 @@
 jdk: openjdk17
+script:
+  - ./gradlew :kotest-extensions-spring-restdocs:publishToMavenLocal
