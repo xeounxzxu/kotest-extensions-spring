@@ -17,5 +17,5 @@
 ## Supprot 
 
 ```
-https://jitpack.io/#xeounxzxu/kotest-extensions-spring-restdocs/v1.0.0
+https://jitpack.io/#xeounxzxu/kotest-extensions-spring-restdocs
 ```
