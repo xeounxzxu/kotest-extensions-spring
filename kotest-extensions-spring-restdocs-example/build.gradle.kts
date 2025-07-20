@@ -19,8 +19,7 @@ java {
 configurations {
     create("asciidoctorExt")
 }
-
-dependencies {
+ dependencies {
 
     val version = PluginsVersion
 
@@ -31,7 +30,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    testImplementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:0.0.0.3-SNAPSHOT")
+    testImplementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:v1.0.0")
 
     // kotest setting
     testImplementation("io.kotest:kotest-runner-junit5-jvm:${version.kotest}")
