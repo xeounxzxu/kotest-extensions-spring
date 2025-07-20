@@ -30,7 +30,7 @@ configurations {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    testImplementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:v1.0.0")
+    testImplementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:v1.0.1")
 
     // kotest setting
     testImplementation("io.kotest:kotest-runner-junit5-jvm:${version.kotest}")
@@ -50,20 +50,20 @@ kotlin {
 }
 
 // SETTING TO SPRING
-val snippetsDir by extra { file("build/generated-snippets") }
+//val snippetsDir by extra { file("build/generated-snippets") }
 
-tasks.test {
-    outputs.dir(snippetsDir)
-}
-
-tasks.named<org.asciidoctor.gradle.jvm.AsciidoctorTask>("asciidoctor") {
-    inputs.dir(snippetsDir)
-    configurations("asciidoctorExt")
-    dependsOn(tasks.test)
-}
-
+//tasks.test {
+//    outputs.dir(snippetsDir)
+//}
+//
+//tasks.named<org.asciidoctor.gradle.jvm.AsciidoctorTask>("asciidoctor") {
+//    inputs.dir(snippetsDir)
+//    configurations("asciidoctorExt")
+//    dependsOn(tasks.test)
+//}
+//
 tasks.withType<Test> {
     // SETTING TO SPRING
-    outputs.dir(snippetsDir)
+//    outputs.dir(snippetsDir)
     useJUnitPlatform()
 }
