@@ -10,17 +10,17 @@ import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
 
-val RestDocExtension = RestDocTestExtension()
+val SpringRestDocsExtension = RestDocTestExtension()
 
 suspend fun manualRestDocumentation(): ManualRestDocumentation {
-    return coroutineContext[RestDocTestContextCoroutineContextElement]?.manualRestDocumentation
-        ?: error("No ManualRestDocumentation defined in this coroutine context")
+    return coroutineContext[RestDocsContextElement]?.manualRestDocumentation
+        ?: error("no manualRestDocumentation defined in this coroutine context")
 }
 
-class RestDocTestContextCoroutineContextElement(
+class RestDocsContextElement(
     val manualRestDocumentation: ManualRestDocumentation,
 ) : AbstractCoroutineContextElement(Key) {
-    companion object Key : CoroutineContext.Key<RestDocTestContextCoroutineContextElement>
+    companion object Key : CoroutineContext.Key<RestDocsContextElement>
 }
 
 class RestDocTestExtension : TestCaseExtension {
@@ -30,7 +30,7 @@ class RestDocTestExtension : TestCaseExtension {
     ): TestResult {
         val manualRestDocumentation = ManualRestDocumentation()
 
-        return withContext(RestDocTestContextCoroutineContextElement(manualRestDocumentation)) {
+        return withContext(RestDocsContextElement(manualRestDocumentation)) {
             testContextManager().beforeTestClass()
             testContextManager().prepareTestInstance(testCase.spec)
             manualRestDocumentation.beforeTest(testCase.javaClass::class.java, testCase.name.testName)
