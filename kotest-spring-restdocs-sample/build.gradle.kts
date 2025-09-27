@@ -11,7 +11,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    implementation("com.github.xeounxzxu:kotest-spring-restdocs:$kotestSpringRestdocsVersion")
+    implementation("com.github.xeounxzxu:kotest-extensions-spring-restdocs:$kotestSpringRestdocsVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc:${PluginsVersion.restdocs}")
@@ -29,9 +29,10 @@ tasks.test {
 }
 
 // Skip building this sample when running publish-oriented tasks for the library module
-val skipForLibraryRelease = gradle.startParameter.taskNames.any { taskName ->
-    taskName == "publishToMavenLocal" || taskName.endsWith(":publishToMavenLocal")
-} && gradle.startParameter.taskNames.none { it.startsWith(project.path) }
+val skipForLibraryRelease =
+    gradle.startParameter.taskNames.any { taskName ->
+        taskName == "publishToMavenLocal" || taskName.endsWith(":publishToMavenLocal")
+    } && gradle.startParameter.taskNames.none { it.startsWith(project.path) }
 
 tasks.configureEach {
     onlyIf { !skipForLibraryRelease || name == "clean" }
