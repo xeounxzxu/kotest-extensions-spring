@@ -1,0 +1,16 @@
+:snippets: ../build/generated-snippets
+
+= Todo API
+
+== List Todos
+
+include::{snippets}/todos-list/http-request.adoc[]
+include::{snippets}/todos-list/http-response.adoc[]
+include::{snippets}/todos-list/response-fields.adoc[]
+
+== Create Todo
+
+include::{snippets}/todos-create/http-request.adoc[]
+include::{snippets}/todos-create/http-response.adoc[]
+include::{snippets}/todos-create/request-fields.adoc[]
+include::{snippets}/todos-create/response-fields.adoc[]

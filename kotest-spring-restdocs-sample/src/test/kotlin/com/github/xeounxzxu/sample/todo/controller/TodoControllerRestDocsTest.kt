@@ -12,10 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
-import org.springframework.restdocs.operation.preprocess.OperationPreprocessor
-import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
-import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
-import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
@@ -45,9 +41,6 @@ class TodoControllerRestDocsTest @Autowired constructor(
             MockMvcBuilders.webAppContextSetup(context)
                 .apply<DefaultMockMvcBuilder>(
                     MockMvcRestDocumentation.documentationConfiguration(this)
-                        .operationPreprocessors()
-                        .withRequestDefaults(preprocessRequest(prettyPrint()) as OperationPreprocessor?)
-                        .withResponseDefaults(preprocessResponse(prettyPrint()) as OperationPreprocessor?)
                 )
                 .build()
         }
@@ -89,8 +82,6 @@ class TodoControllerRestDocsTest @Autowired constructor(
             .andDo(
                 MockMvcRestDocumentation.document(
                     "todos-create",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint()),
                     requestFields(
                         fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title")
                     ),
