@@ -1,48 +1,48 @@
-name: release
-
-on:
-  push:
-    tags:
-      - '*'
-
-jobs:
-  validate-and-trigger-jitpack:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: gradle
-
-      - name: Ensure release tag matches library version
-        run: |
-          TAG_NAME="${GITHUB_REF_NAME}"
-          PROP_VERSION=$(awk -F= '$1=="kotestSpringRestdocsVersion" {print $2}' gradle.properties)
-          if [ -z "${PROP_VERSION}" ]; then
-            echo "kotestSpringRestdocsVersion property not found"
-            exit 1
-          fi
-          if [ "${TAG_NAME}" != "${PROP_VERSION}" ]; then
-            echo "Tag ${TAG_NAME} does not match kotestSpringRestdocsVersion ${PROP_VERSION}"
-            exit 1
-          fi
-
-      - name: Run quality gates
-        run: ./gradlew clean build --parallel
-
-      - name: Publish locally for validation
-        run: ./gradlew publishToMavenLocal --parallel
-
-      - name: Trigger JitPack build
-        run: |
-          OWNER="${GITHUB_REPOSITORY%/*}"
-          REPO="${GITHUB_REPOSITORY#*/}"
-          VERSION="${GITHUB_REF_NAME}"
-          curl -fsSL "https://jitpack.io/com/github/${OWNER}/${REPO}/${VERSION}/build.log" -o jitpack-build.log
-          tail -n 50 jitpack-build.log
+#name: release
+#
+#on:
+#  push:
+#    tags:
+#      - '*'
+#
+#jobs:
+#  validate-and-trigger-jitpack:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v4
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: temurin
+#          java-version: '17'
+#          cache: gradle
+#
+#      - name: Ensure release tag matches library version
+#        run: |
+#          TAG_NAME="${GITHUB_REF_NAME}"
+#          PROP_VERSION=$(awk -F= '$1=="kotestSpringRestdocsVersion" {print $2}' gradle.properties)
+#          if [ -z "${PROP_VERSION}" ]; then
+#            echo "kotestSpringRestdocsVersion property not found"
+#            exit 1
+#          fi
+#          if [ "${TAG_NAME}" != "${PROP_VERSION}" ]; then
+#            echo "Tag ${TAG_NAME} does not match kotestSpringRestdocsVersion ${PROP_VERSION}"
+#            exit 1
+#          fi
+#
+#      - name: Run quality gates
+#        run: ./gradlew clean build --parallel
+#
+#      - name: Publish locally for validation
+#        run: ./gradlew publishToMavenLocal --parallel
+#
+#      - name: Trigger JitPack build
+#        run: |
+#          OWNER="${GITHUB_REPOSITORY%/*}"
+#          REPO="${GITHUB_REPOSITORY#*/}"
+#          VERSION="${GITHUB_REF_NAME}"
+#          curl -fsSL "https://jitpack.io/com/github/${OWNER}/${REPO}/${VERSION}/build.log" -o jitpack-build.log
+#          tail -n 50 jitpack-build.log
