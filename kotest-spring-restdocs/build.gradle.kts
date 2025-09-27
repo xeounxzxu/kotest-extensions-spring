@@ -3,9 +3,6 @@ plugins {
     `java-library`
 }
 
-group = "com.github.xeounxzxu"
-version = "1.0.0"
-
 val pluginVersion = PluginsVersion
 
 dependencies {
@@ -22,7 +19,7 @@ publishing {
         create("maven-public", MavenPublication::class) {
             groupId = "com.github.xeounxzxu"
             artifactId = "kotest-spring-restdocs"
-            version = "1.0.0"
+            version = project.version.toString()
             from(components["java"])
         }
     }

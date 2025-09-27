@@ -48,3 +48,11 @@ subprojects {
         debug.set(true)
     }
 }
+
+project(":kotest-spring-restdocs") {
+    version = providers.gradleProperty("kotestSpringRestdocsVersion").get()
+}
+
+project(":kotest-spring-restdocs-sample") {
+    version = providers.gradleProperty("kotestSpringRestdocsSampleVersion").get()
+}
