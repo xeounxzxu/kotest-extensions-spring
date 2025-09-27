@@ -31,6 +31,12 @@ dependencies {
 ./gradlew clean :kotest-spring-restdocs:publishToMavenLocal
 ```
 
+#### Release via GitHub Actions + JitPack
+1. Update `gradle.properties` so `kotestSpringRestdocsVersion` reflects the release version.
+2. Create a Git tag whose name matches that version (for example, `git tag 1.0.0 && git push origin 1.0.0`).
+3. GitHub Actions runs the `release` workflow, checks the tag, builds the project, and triggers JitPack.
+4. Once the workflow finishes, confirm the build on JitPack and consume the artifact using the new tag.
+
 ### Usage Example
 Below is a Spring MVC slice test that produces REST Docs snippets. For a full setup, check the example module.
 
@@ -153,6 +159,12 @@ dependencies {
 ```bash
 ./gradlew clean :kotest-spring-restdocs:publishToMavenLocal
 ```
+
+#### GitHub Actions와 JitPack을 이용한 배포
+1. `gradle.properties`의 `kotestSpringRestdocsVersion`를 릴리스 버전으로 수정합니다.
+2. 동일한 이름의 Git 태그를 생성하고 원격에 푸시합니다. (예: `git tag 1.0.0 && git push origin 1.0.0`)
+3. GitHub Actions의 `release` 워크플로가 태그를 검증하고 빌드를 수행한 뒤 JitPack 빌드를 호출합니다.
+4. 워크플로가 성공하면 JitPack에서 빌드 상태를 확인하고 해당 태그로 배포된 아티팩트를 사용할 수 있습니다.
 
 ### 사용 예시
 Spring MVC 슬라이스 테스트에서 REST Docs 스니펫을 생성하는 Kotest 예시입니다. 실제 예제 코드는 예제 모듈을 참고하세요.

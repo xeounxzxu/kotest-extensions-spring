@@ -3,6 +3,10 @@ plugins {
     `java-library`
 }
 
+java {
+    withSourcesJar()
+}
+
 val pluginVersion = PluginsVersion
 
 dependencies {

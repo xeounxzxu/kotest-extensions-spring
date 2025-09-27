@@ -4,14 +4,14 @@ plugins {
     kotlin("plugin.spring") version PluginsVersion.kotlin
 }
 
-dependencies {
-    // sample project
-    // fixme : last version remove and local project add
-    implementation(project(":kotest-spring-restdocs"))
+val kotestSpringRestdocsVersion: String by project
 
+dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    implementation("com.github.xeounxzxu:kotest-spring-restdocs:$kotestSpringRestdocsVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc:${PluginsVersion.restdocs}")
