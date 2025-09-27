@@ -1,4 +1,4 @@
-# Kotest Extensions Spring Restdocs
+# Kotest Spring Restdocs
 
 ## Formatting 
 
@@ -17,5 +17,5 @@
 ## Supprot 
 
 ```
-https://jitpack.io/#xeounxzxu/kotest-extensions-spring-restdocs
+https://jitpack.io/#xeounxzxu/kotest-spring-restdocs
 ```

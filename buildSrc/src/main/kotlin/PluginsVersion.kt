@@ -6,9 +6,9 @@ object PluginsVersion {
     const val ktlint = "12.1.1"
 
 
-    //  kotest-extensions-spring-restdocs version
+    //  kotest-spring-restdocs version
     const val kotest = "5.8.0"
-    const val kotestExtensionsSpringRestdocs = "0.0.1-SNAPSHOT"
+    const val kotestSpringRestdocs = "0.0.1-SNAPSHOT"
     const val restdocs = "3.0.1"
     const val extensionsSpring = "1.1.3"
 }

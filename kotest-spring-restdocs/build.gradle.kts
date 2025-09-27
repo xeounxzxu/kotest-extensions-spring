@@ -21,7 +21,7 @@ publishing {
     publications {
         create("maven-public", MavenPublication::class) {
             groupId = "com.github.xeounxzxu"
-            artifactId = "kotest-extensions-spring-restdocs"
+            artifactId = "kotest-spring-restdocs"
             version = "1.0.0"
             from(components["java"])
         }
