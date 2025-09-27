@@ -63,6 +63,19 @@ class PingControllerTest(
 })
 ```
 
+## 확장 설정 커스터마이즈
+`springRestDocsExtension { ... }` 팩토리를 사용하면 출력 경로나 스니펫 이름 포맷터를 원하는 방식으로 조정할 수 있습니다. `SpringRestDocsExtension` 상수는 이 팩토리를 기본 설정으로 생성한 결과입니다.
+
+```kotlin
+extensions(
+    SpringExtension,
+    springRestDocsExtension {
+        outputDirectory = "build/custom-snippets"
+        testNameFormatter = { case -> "${case.spec::class.simpleName}-${case.name.testName}" }
+    }
+)
+```
+
 ## 수동 제어가 필요할 때
 `manualRestDocumentation()` 헬퍼를 사용하면 현재 테스트 컨텍스트에 연결된 `ManualRestDocumentation` 인스턴스를 가져올 수 있습니다. 예를 들어 커스텀 RestDocs 설정이 필요한 경우 다음과 같이 사용할 수 있습니다.
 
@@ -72,6 +85,14 @@ suspend fun beforeEachTest() {
         snippetConfigurer
             .withTemplateFormat(TemplateFormats.asciidoctor())
     }
+}
+```
+
+또는 `withManualRestDocumentation { ... }` 헬퍼를 사용하면 더 간결하게 작성할 수 있습니다.
+
+```kotlin
+suspend fun beforeEachTest() = withManualRestDocumentation {
+    snippetConfigurer.withTemplateFormat(TemplateFormats.asciidoctor())
 }
 ```
 
