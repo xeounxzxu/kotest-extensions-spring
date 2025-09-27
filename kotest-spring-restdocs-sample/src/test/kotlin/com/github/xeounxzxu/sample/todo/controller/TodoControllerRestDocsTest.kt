@@ -1,0 +1,105 @@
+package com.github.xeounxzxu.sample.todo.controller
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.xeounxzxu.SpringRestDocsExtension
+import com.github.xeounxzxu.sample.todo.dto.CreateTodoRequest
+import com.github.xeounxzxu.sample.todo.service.TodoService
+import com.github.xeounxzxu.withManualRestDocumentation
+import io.kotest.core.spec.style.FunSpec
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.operation.preprocess.OperationPreprocessor
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
+import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class TodoControllerRestDocsTest @Autowired constructor(
+    private val context: WebApplicationContext,
+    private val objectMapper: ObjectMapper,
+    private val todoService: TodoService,
+) : FunSpec({
+
+    extensions(SpringRestDocsExtension)
+
+    lateinit var mockMvc: MockMvc
+
+    beforeTest {
+        todoService.clearAll()
+        mockMvc = withManualRestDocumentation {
+            MockMvcBuilders.webAppContextSetup(context)
+                .apply<DefaultMockMvcBuilder>(
+                    MockMvcRestDocumentation.documentationConfiguration(this)
+                        .operationPreprocessors()
+                        .withRequestDefaults(preprocessRequest(prettyPrint()) as OperationPreprocessor?)
+                        .withResponseDefaults(preprocessResponse(prettyPrint()) as OperationPreprocessor?)
+                )
+                .build()
+        }
+    }
+
+    test("documents fetching all todos") {
+        todoService.createTodo(CreateTodoRequest("Buy milk"))
+        todoService.createTodo(CreateTodoRequest("Write docs"))
+
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/todos")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isOk)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "todos-list",
+                    responseFields(
+                        fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Todo identifier"),
+                        fieldWithPath("[].title").type(JsonFieldType.STRING).description("Todo title"),
+                        fieldWithPath("[].completed").type(JsonFieldType.BOOLEAN).description("Completion flag")
+                    )
+                )
+            )
+    }
+
+    test("documents creating a todo") {
+        val request = CreateTodoRequest(title = "Learn Kotest")
+
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.post("/api/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.title").value(request.title))
+            .andExpect(jsonPath("$.completed").value(false))
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "todos-create",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title")
+                    ),
+                    responseFields(
+                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("Generated todo identifier"),
+                        fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title"),
+                        fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("Completion flag")
+                    )
+                )
+            )
+    }
+})
