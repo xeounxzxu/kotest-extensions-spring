@@ -52,11 +52,9 @@ class PingControllerTest(
                 .andDo {
                     document(
                         "ping-controller-test",
-                        responseFields(
-                            fieldWithPath("status")
-                                .type(JsonFieldType.STRING)
-                                .description("Status value")
-                        )
+                        responseFields {
+                            "status" type JsonFieldType.STRING means "Status value"
+                        },
                     )
                 }
         }
@@ -101,6 +99,24 @@ suspend fun beforeEachTest() = withManualRestDocumentation {
 ```
 
 Generated snippets live under `build/generated-snippets`. Combine them with Asciidoctor or any other documentation tooling as needed.
+
+### Kotlin DSL for Field Descriptors
+The module also ships a concise DSL to describe payload fields without repetitive builder chains:
+
+```kotlin
+document(
+    "todos-create",
+    requestFields {
+        "title" type JsonFieldType.STRING means "Todo title"
+    },
+    responseFields {
+        "id" type JsonFieldType.NUMBER means "Generated todo identifier"
+        "message" type JsonFieldType.STRING optionalMeans "Optional message"
+    }
+)
+```
+
+Relaxed variants (`relaxedRequestFields { ... }`, `relaxedResponseFields { ... }`) and subsection helpers (`subsection(...)`, `optionalSubsection(...)`) are available when documenting nested structures.
 
 ## 한국어
 
@@ -154,11 +170,9 @@ class PingControllerTest(
                 .andDo {
                     document(
                         "ping-controller-test",
-                        responseFields(
-                            fieldWithPath("status")
-                                .type(JsonFieldType.STRING)
-                                .description("상태 값")
-                        )
+                        responseFields {
+                            "status" type JsonFieldType.STRING means "상태 값"
+                        },
                     )
                 }
         }
@@ -202,3 +216,21 @@ suspend fun beforeEachTest() = withManualRestDocumentation {
 ```
 
 생성된 스니펫은 각 모듈의 `build/generated-snippets` 아래에서 확인할 수 있습니다. REST Docs를 Asciidoctor와 연동하는 설정은 별도 문서를 참고하거나 예제 모듈을 기반으로 확장하면 됩니다.
+
+### 필드 디스크립터를 위한 Kotlin DSL
+반복적인 체이닝 대신 다음과 같은 DSL을 사용할 수 있습니다.
+
+```kotlin
+document(
+    "todos-create",
+    requestFields {
+        "title" type JsonFieldType.STRING means "할 일 제목"
+    },
+    responseFields {
+        "id" type JsonFieldType.NUMBER means "생성된 식별자"
+        "message" type JsonFieldType.STRING optionalMeans "선택 메시지"
+    }
+)
+```
+
+`relaxedRequestFields { ... }`, `relaxedResponseFields { ... }`, `subsection(...)`, `optionalSubsection(...)` 등을 활용해 중첩 구조도 간단히 표현할 수 있습니다.
