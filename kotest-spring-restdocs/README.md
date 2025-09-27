@@ -35,6 +35,11 @@ dependencies {
 Below is a Spring MVC slice test that produces REST Docs snippets. For a full setup, check the example module.
 
 ```kotlin
+import com.github.xeounxzxu.restdocs.kotest.SpringRestDocsExtension
+import com.github.xeounxzxu.restdocs.kotest.springRestDocsExtension
+```
+
+```kotlin
 @WebMvcTest(PingController::class)
 class PingControllerTest(
     @Autowired private val mockMvc: MockMvc,
@@ -151,6 +156,11 @@ dependencies {
 
 ### 사용 예시
 Spring MVC 슬라이스 테스트에서 REST Docs 스니펫을 생성하는 Kotest 예시입니다. 실제 예제 코드는 예제 모듈을 참고하세요.
+
+```kotlin
+import com.github.xeounxzxu.restdocs.kotest.SpringRestDocsExtension
+import com.github.xeounxzxu.restdocs.kotest.springRestDocsExtension
+```
 
 ```kotlin
 @WebMvcTest(PingController::class)

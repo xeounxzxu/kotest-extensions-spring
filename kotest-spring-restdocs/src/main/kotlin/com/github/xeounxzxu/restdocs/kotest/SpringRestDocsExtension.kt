@@ -1,13 +1,10 @@
-package com.github.xeounxzxu
+package com.github.xeounxzxu.restdocs.kotest
 
 import io.kotest.core.extensions.TestCaseExtension
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import kotlinx.coroutines.withContext
 import org.springframework.restdocs.ManualRestDocumentation
-import kotlin.coroutines.AbstractCoroutineContextElement
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 private const val DEFAULT_OUTPUT_DIRECTORY = "build/generated-snippets"
 
@@ -22,9 +19,7 @@ private val blankSequence = Regex("\\s+")
 class SpringRestDocsConfig {
     var outputDirectory: String = System.getProperty(REST_DOCS_OUTPUT_DIR_PROPERTY) ?: DEFAULT_OUTPUT_DIRECTORY
     var testNameFormatter: (TestCase) -> String = { testCase ->
-        testCase
-            .name
-            .testName
+        testCase.name.testName
             .replace(blankSequence, "-")
             .replace(invalidSnippetChars, "-")
             .trim('-')
@@ -64,15 +59,3 @@ private class SpringRestDocsExtensionImpl(
         }
     }
 }
-
-class RestDocsContextElement(
-    val manualRestDocumentation: ManualRestDocumentation,
-) : AbstractCoroutineContextElement(Key) {
-    companion object Key : CoroutineContext.Key<RestDocsContextElement>
-}
-
-suspend fun manualRestDocumentation(): ManualRestDocumentation =
-    coroutineContext[RestDocsContextElement]?.manualRestDocumentation
-        ?: error("RestDocsContextElement is not registered in coroutine context.")
-
-suspend fun <T> withManualRestDocumentation(block: ManualRestDocumentation.() -> T): T = manualRestDocumentation().run(block)

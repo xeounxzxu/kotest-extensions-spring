@@ -1,12 +1,12 @@
 package com.github.xeounxzxu.sample.todo.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.xeounxzxu.SpringRestDocsExtension
+import com.github.xeounxzxu.restdocs.kotest.SpringRestDocsExtension
 import com.github.xeounxzxu.restdocs.requestFields
 import com.github.xeounxzxu.restdocs.responseFields
 import com.github.xeounxzxu.sample.todo.dto.CreateTodoRequest
 import com.github.xeounxzxu.sample.todo.service.TodoService
-import com.github.xeounxzxu.withManualRestDocumentation
+import com.github.xeounxzxu.restdocs.kotest.withManualRestDocumentation
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc

@@ -1,4 +1,4 @@
-package com.github.xeounxzxu
+package com.github.xeounxzxu.restdocs.kotest
 
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.FunSpec
