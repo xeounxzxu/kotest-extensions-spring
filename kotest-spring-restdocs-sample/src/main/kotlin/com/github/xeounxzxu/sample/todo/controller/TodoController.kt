@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController
 class TodoController(
     private val todoService: TodoService,
 ) {
-
     @GetMapping
     fun getTodos(): List<TodoResponse> = todoService.getTodos()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createTodo(@RequestBody request: CreateTodoRequest): TodoResponse =
-        todoService.createTodo(request)
+    fun createTodo(
+        @RequestBody request: CreateTodoRequest,
+    ): TodoResponse = todoService.createTodo(request)
 }

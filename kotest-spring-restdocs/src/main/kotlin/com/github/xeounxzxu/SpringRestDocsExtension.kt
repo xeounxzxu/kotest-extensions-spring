@@ -22,7 +22,9 @@ private val blankSequence = Regex("\\s+")
 class SpringRestDocsConfig {
     var outputDirectory: String = System.getProperty(REST_DOCS_OUTPUT_DIR_PROPERTY) ?: DEFAULT_OUTPUT_DIRECTORY
     var testNameFormatter: (TestCase) -> String = { testCase ->
-        testCase.name.testName
+        testCase
+            .name
+            .testName
             .replace(blankSequence, "-")
             .replace(invalidSnippetChars, "-")
             .trim('-')
@@ -46,8 +48,10 @@ val SpringRestDocsExtension: TestCaseExtension = springRestDocsExtension()
 private class SpringRestDocsExtensionImpl(
     private val settings: SpringRestDocsSettings,
 ) : TestCaseExtension {
-
-    override suspend fun intercept(testCase: TestCase, execute: suspend (TestCase) -> TestResult): TestResult {
+    override suspend fun intercept(
+        testCase: TestCase,
+        execute: suspend (TestCase) -> TestResult,
+    ): TestResult {
         val restDocs = ManualRestDocumentation(settings.outputDirectory)
         restDocs.beforeTest(testCase.spec::class.java, settings.testNameFormatter(testCase))
 
@@ -67,11 +71,8 @@ class RestDocsContextElement(
     companion object Key : CoroutineContext.Key<RestDocsContextElement>
 }
 
-suspend fun manualRestDocumentation(): ManualRestDocumentation {
-    return coroutineContext[RestDocsContextElement]?.manualRestDocumentation
+suspend fun manualRestDocumentation(): ManualRestDocumentation =
+    coroutineContext[RestDocsContextElement]?.manualRestDocumentation
         ?: error("RestDocsContextElement is not registered in coroutine context.")
-}
 
-suspend fun <T> withManualRestDocumentation(block: ManualRestDocumentation.() -> T): T {
-    return manualRestDocumentation().run(block)
-}
+suspend fun <T> withManualRestDocumentation(block: ManualRestDocumentation.() -> T): T = manualRestDocumentation().run(block)

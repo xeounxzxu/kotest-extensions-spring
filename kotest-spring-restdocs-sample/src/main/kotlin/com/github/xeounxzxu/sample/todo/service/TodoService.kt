@@ -9,13 +9,14 @@ import java.util.concurrent.atomic.AtomicLong
 
 @Service
 class TodoService {
-
     private val idGenerator = AtomicLong(0)
     private val todos = ConcurrentHashMap<Long, Todo>()
 
-    fun getTodos(): List<TodoResponse> = todos.values
-        .sortedBy { it.id }
-        .map { it.toResponse() }
+    fun getTodos(): List<TodoResponse> =
+        todos
+            .values
+            .sortedBy { it.id }
+            .map { it.toResponse() }
 
     fun createTodo(request: CreateTodoRequest): TodoResponse {
         val id = idGenerator.incrementAndGet()
@@ -29,9 +30,10 @@ class TodoService {
         idGenerator.set(0)
     }
 
-    private fun Todo.toResponse(): TodoResponse = TodoResponse(
-        id = id,
-        title = title,
-        completed = completed,
-    )
+    private fun Todo.toResponse(): TodoResponse =
+        TodoResponse(
+            id = id,
+            title = title,
+            completed = completed,
+        )
 }

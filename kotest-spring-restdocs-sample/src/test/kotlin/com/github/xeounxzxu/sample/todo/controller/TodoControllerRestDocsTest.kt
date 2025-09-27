@@ -25,72 +25,77 @@ import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TodoControllerRestDocsTest @Autowired constructor(
-    private val context: WebApplicationContext,
-    private val objectMapper: ObjectMapper,
-    private val todoService: TodoService,
-) : FunSpec({
+class TodoControllerRestDocsTest
+    @Autowired
+    constructor(
+        private val context: WebApplicationContext,
+        private val objectMapper: ObjectMapper,
+        private val todoService: TodoService,
+    ) : FunSpec({
 
-    extensions(SpringRestDocsExtension)
+            extensions(SpringRestDocsExtension)
 
-    lateinit var mockMvc: MockMvc
+            lateinit var mockMvc: MockMvc
 
-    beforeTest {
-        todoService.clearAll()
-        mockMvc = withManualRestDocumentation {
-            MockMvcBuilders.webAppContextSetup(context)
-                .apply<DefaultMockMvcBuilder>(
-                    MockMvcRestDocumentation.documentationConfiguration(this)
-                )
-                .build()
-        }
-    }
+            beforeTest {
+                todoService.clearAll()
+                mockMvc =
+                    withManualRestDocumentation {
+                        MockMvcBuilders
+                            .webAppContextSetup(context)
+                            .apply<DefaultMockMvcBuilder>(
+                                MockMvcRestDocumentation.documentationConfiguration(this),
+                            ).build()
+                    }
+            }
 
-    test("documents fetching all todos") {
-        todoService.createTodo(CreateTodoRequest("Buy milk"))
-        todoService.createTodo(CreateTodoRequest("Write docs"))
+            test("documents fetching all todos") {
+                todoService.createTodo(CreateTodoRequest("Buy milk"))
+                todoService.createTodo(CreateTodoRequest("Write docs"))
 
-        mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/api/todos")
-                .accept(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(status().isOk)
-            .andDo(
-                MockMvcRestDocumentation.document(
-                    "todos-list",
-                    responseFields(
-                        fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Todo identifier"),
-                        fieldWithPath("[].title").type(JsonFieldType.STRING).description("Todo title"),
-                        fieldWithPath("[].completed").type(JsonFieldType.BOOLEAN).description("Completion flag")
+                mockMvc
+                    .perform(
+                        RestDocumentationRequestBuilders
+                            .get("/api/todos")
+                            .accept(MediaType.APPLICATION_JSON),
+                    ).andExpect(status().isOk)
+                    .andDo(
+                        MockMvcRestDocumentation.document(
+                            "todos-list",
+                            responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Todo identifier"),
+                                fieldWithPath("[].title").type(JsonFieldType.STRING).description("Todo title"),
+                                fieldWithPath("[].completed").type(JsonFieldType.BOOLEAN).description("Completion flag"),
+                            ),
+                        ),
                     )
-                )
-            )
-    }
+            }
 
-    test("documents creating a todo") {
-        val request = CreateTodoRequest(title = "Learn Kotest")
+            test("documents creating a todo") {
+                val request = CreateTodoRequest(title = "Learn Kotest")
 
-        mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/todos")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-        )
-            .andExpect(status().isCreated)
-            .andExpect(jsonPath("$.title").value(request.title))
-            .andExpect(jsonPath("$.completed").value(false))
-            .andDo(
-                MockMvcRestDocumentation.document(
-                    "todos-create",
-                    requestFields(
-                        fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title")
-                    ),
-                    responseFields(
-                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("Generated todo identifier"),
-                        fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title"),
-                        fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("Completion flag")
+                mockMvc
+                    .perform(
+                        RestDocumentationRequestBuilders
+                            .post("/api/todos")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(request)),
+                    ).andExpect(status().isCreated)
+                    .andExpect(jsonPath("$.title").value(request.title))
+                    .andExpect(jsonPath("$.completed").value(false))
+                    .andDo(
+                        MockMvcRestDocumentation.document(
+                            "todos-create",
+                            requestFields(
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title"),
+                            ),
+                            responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Generated todo identifier"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("Todo title"),
+                                fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("Completion flag"),
+                            ),
+                        ),
                     )
-                )
-            )
-    }
-})
+            }
+        })
