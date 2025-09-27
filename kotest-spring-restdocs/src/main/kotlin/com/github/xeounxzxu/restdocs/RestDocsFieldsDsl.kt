@@ -19,9 +19,10 @@ class RestDocsFieldDsl {
         optional: Boolean,
         ignored: Boolean,
     ): FieldDescriptor {
-        val descriptor = fieldWithPath(path)
-            .type(type)
-            .description(description)
+        val descriptor =
+            fieldWithPath(path)
+                .type(type)
+                .description(description)
 
         if (optional) {
             descriptor.optional()
@@ -62,18 +63,30 @@ class RestDocsFieldDsl {
     ) {
         infix fun means(description: String): FieldDescriptor = means(description) {}
 
-        fun means(description: String, block: FieldDescriptor.() -> Unit): FieldDescriptor {
+        fun means(
+            description: String,
+            block: FieldDescriptor.() -> Unit,
+        ): FieldDescriptor {
             return addFieldDescriptor(path, type, description, optional, ignored).apply(block)
         }
 
         fun optional(): FieldSpec = FieldSpec(path, type, optional = true, ignored = ignored)
+
         fun ignored(): FieldSpec = FieldSpec(path, type, optional = optional, ignored = true)
 
         infix fun optionalMeans(description: String): FieldDescriptor = optional().means(description)
-        fun optionalMeans(description: String, block: FieldDescriptor.() -> Unit): FieldDescriptor = optional().means(description, block)
+
+        fun optionalMeans(
+            description: String,
+            block: FieldDescriptor.() -> Unit,
+        ): FieldDescriptor = optional().means(description, block)
 
         infix fun ignoredMeans(description: String): FieldDescriptor = ignored().means(description)
-        fun ignoredMeans(description: String, block: FieldDescriptor.() -> Unit): FieldDescriptor = ignored().means(description, block)
+
+        fun ignoredMeans(
+            description: String,
+            block: FieldDescriptor.() -> Unit,
+        ): FieldDescriptor = ignored().means(description, block)
     }
 
     infix fun String.type(jsonType: JsonFieldType): FieldSpec = FieldSpec(this, jsonType)
@@ -123,8 +136,7 @@ class RestDocsFieldDsl {
         subsection(path, description, optional = true, block = block)
     }
 
-    infix fun String.subsection(description: String): SubsectionDescriptor =
-        addSubsectionDescriptor(this, description, optional = false)
+    infix fun String.subsection(description: String): SubsectionDescriptor = addSubsectionDescriptor(this, description, optional = false)
 
     infix fun String.optionalSubsection(description: String): SubsectionDescriptor =
         addSubsectionDescriptor(this, description, optional = true)

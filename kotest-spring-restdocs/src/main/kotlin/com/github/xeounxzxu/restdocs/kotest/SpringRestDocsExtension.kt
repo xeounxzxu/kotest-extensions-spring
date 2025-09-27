@@ -19,7 +19,9 @@ private val blankSequence = Regex("\\s+")
 class SpringRestDocsConfig {
     var outputDirectory: String = System.getProperty(REST_DOCS_OUTPUT_DIR_PROPERTY) ?: DEFAULT_OUTPUT_DIRECTORY
     var testNameFormatter: (TestCase) -> String = { testCase ->
-        testCase.name.testName
+        testCase
+            .name
+            .testName
             .replace(blankSequence, "-")
             .replace(invalidSnippetChars, "-")
             .trim('-')

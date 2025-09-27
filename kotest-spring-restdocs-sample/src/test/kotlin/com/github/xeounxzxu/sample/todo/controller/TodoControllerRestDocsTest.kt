@@ -2,11 +2,11 @@ package com.github.xeounxzxu.sample.todo.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.xeounxzxu.restdocs.kotest.SpringRestDocsExtension
+import com.github.xeounxzxu.restdocs.kotest.withManualRestDocumentation
 import com.github.xeounxzxu.restdocs.requestFields
 import com.github.xeounxzxu.restdocs.responseFields
 import com.github.xeounxzxu.sample.todo.dto.CreateTodoRequest
 import com.github.xeounxzxu.sample.todo.service.TodoService
-import com.github.xeounxzxu.restdocs.kotest.withManualRestDocumentation
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -65,8 +65,8 @@ class TodoControllerRestDocsTest
                                 "[].id" type JsonFieldType.NUMBER means "Todo identifier"
                                 "[].title" type JsonFieldType.STRING means "Todo title"
                                 "[].completed" type JsonFieldType.BOOLEAN means "Completion flag"
-                            }
-                        )
+                            },
+                        ),
                     )
             }
 
@@ -93,8 +93,8 @@ class TodoControllerRestDocsTest
                                 "id" type JsonFieldType.NUMBER means "Generated todo identifier"
                                 "title" type JsonFieldType.STRING means "Todo title"
                                 "completed" type JsonFieldType.BOOLEAN means "Completion flag"
-                            }
-                        )
+                            },
+                        ),
                     )
             }
         })
