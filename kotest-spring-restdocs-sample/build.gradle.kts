@@ -27,3 +27,12 @@ configurations.all {
 tasks.test {
     useJUnitPlatform()
 }
+
+// Skip building this sample when running publish-oriented tasks for the library module
+val skipForLibraryRelease = gradle.startParameter.taskNames.any { taskName ->
+    taskName == "publishToMavenLocal" || taskName.endsWith(":publishToMavenLocal")
+} && gradle.startParameter.taskNames.none { it.startsWith(project.path) }
+
+tasks.configureEach {
+    onlyIf { !skipForLibraryRelease || name == "clean" }
+}
