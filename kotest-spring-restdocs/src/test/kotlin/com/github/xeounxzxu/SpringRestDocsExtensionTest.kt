@@ -4,6 +4,7 @@ import io.kotest.assertions.fail
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.io.File
+import org.springframework.restdocs.ManualRestDocumentation
 
 class SpringRestDocsExtensionTest : FunSpec({
 
@@ -11,7 +12,7 @@ class SpringRestDocsExtensionTest : FunSpec({
 
     test("makes ManualRestDocumentation available during test execution") {
         val manual = manualRestDocumentation()
-        manual.outputDirectory shouldBe File("build/generated-snippets")
+        manual.outputDirectoryFile() shouldBe File("build/generated-snippets")
     }
 
     test("withManualRestDocumentation runs block with the same ManualRestDocumentation instance") {
@@ -34,7 +35,7 @@ class SpringRestDocsExtensionSystemPropertyTest : FunSpec({
 
     test("uses system property as default output directory") {
         withManualRestDocumentation {
-            outputDirectory shouldBe File(customOutputDir)
+            outputDirectoryFile() shouldBe File(customOutputDir)
         }
     }
 })
@@ -50,3 +51,9 @@ class ManualRestDocumentationHelperTest : FunSpec({
         }
     }
 })
+
+private fun ManualRestDocumentation.outputDirectoryFile(): File {
+    val field = ManualRestDocumentation::class.java.getDeclaredField("outputDirectory")
+    field.isAccessible = true
+    return field.get(this) as File
+}
